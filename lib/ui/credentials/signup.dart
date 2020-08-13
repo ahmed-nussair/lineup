@@ -425,24 +425,35 @@ class _CurrentLocationFieldState extends State<CurrentLocationField> {
 
   bool _pressed;
   String _locationValue;
+  bool _locationSet;
 
   static const googleMapPlatform = const MethodChannel('openTheGoogleMap');
 
   @override
   void initState() {
     _pressed = false;
+    _locationSet = false;
     _locationValue = 'Share - Save Current Location';
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        try {
-          final int result = await googleMapPlatform.invokeMethod('getUserLocation');
-          print('$result');
-        } on PlatformException catch (e) {
-          print('${e.toString()}');
+        if (!_locationSet) {
+          try {
+            var result = await googleMapPlatform.invokeMethod(
+                'getUserLocation');
+            print('$result');
+
+            setState(() {
+              _locationSet = true;
+              _locationValue = '${result['latitude']}, ${result['longitude']}';
+            });
+          } on PlatformException catch (e) {
+            print('${e.toString()}');
+          }
         }
       },
       onTapDown: (details) {
