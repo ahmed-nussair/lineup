@@ -13,6 +13,8 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		9ABE41CC24E7088700914D0B /* CurrentLocationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE41CB24E7088600914D0B /* CurrentLocationButton.swift */; };
+		9ABE41D024E71C3200914D0B /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE41CF24E71C3200914D0B /* BackButton.swift */; };
 		9AF3808424E52F83007A4901 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF3808324E52F83007A4901 /* GoogleMapsBase.framework */; };
 		9AF3808724E52F9C007A4901 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF3808524E52F99007A4901 /* GoogleMaps.framework */; };
 		9AF3808824E52F9C007A4901 /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF3808624E52F9C007A4901 /* GoogleMapsCore.framework */; };
@@ -65,6 +67,8 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9ABE41CB24E7088600914D0B /* CurrentLocationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationButton.swift; sourceTree = "<group>"; };
+		9ABE41CF24E71C3200914D0B /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		9AF3808324E52F83007A4901 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsBase.framework; sourceTree = "<group>"; };
 		9AF3808524E52F99007A4901 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		9AF3808624E52F9C007A4901 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
@@ -171,6 +175,8 @@
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 				9AF380B224E53334007A4901 /* MapViewController.swift */,
 				9AF380B324E53334007A4901 /* MapViewController.xib */,
+				9ABE41CB24E7088600914D0B /* CurrentLocationButton.swift */,
+				9ABE41CF24E71C3200914D0B /* BackButton.swift */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -317,7 +323,9 @@
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				9AF380B424E53335007A4901 /* MapViewController.swift in Sources */,
+				9ABE41CC24E7088700914D0B /* CurrentLocationButton.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				9ABE41D024E71C3200914D0B /* BackButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

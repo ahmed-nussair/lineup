@@ -4,6 +4,13 @@ import GoogleMaps
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
+    
+    var orientationLock = UIInterfaceOrientationMask.portrait
+    
+    override func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return self.orientationLock
+    }
+    
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -31,10 +38,10 @@ import GoogleMaps
                 navigationController.isNavigationBarHidden = true
                 navigationController.pushViewController(viewToPush, animated: true)
                 
-                flutterResult([
-                    "latitude":"100",
-                    "longitude":"50"
-                ])
+//                flutterResult([
+//                    "latitude":"100",
+//                    "longitude":"50"
+//                ])
             })
         }
     }
