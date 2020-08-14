@@ -447,10 +447,10 @@ class _CurrentLocationFieldState extends State<CurrentLocationField> {
                 'getUserLocation');
             print('$result');
 
-            setState(() {
-              _locationSet = true;
-              _locationValue = '${result['latitude']}, ${result['longitude']}';
-            });
+//            setState(() {
+//              _locationSet = true;
+//              _locationValue = '${result['latitude']}, ${result['longitude']}';
+//            });
           } on PlatformException catch (e) {
             print('${e.toString()}');
           }
