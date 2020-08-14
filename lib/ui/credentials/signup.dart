@@ -4,6 +4,7 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:lineup/ui/credentials/login.dart';
 
 import '../screen_util.dart';
+import '../conversions.dart' as conversions;
 
 class SignUp extends StatefulWidget {
   @override
@@ -425,14 +426,12 @@ class _CurrentLocationFieldState extends State<CurrentLocationField> {
 
   bool _pressed;
   String _locationValue;
-  bool _locationSet;
 
   static const googleMapPlatform = const MethodChannel('openTheGoogleMap');
 
   @override
   void initState() {
     _pressed = false;
-    _locationSet = false;
     _locationValue = 'Share - Save Current Location';
     super.initState();
   }
@@ -441,19 +440,19 @@ class _CurrentLocationFieldState extends State<CurrentLocationField> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        if (!_locationSet) {
-          try {
-            var result = await googleMapPlatform.invokeMethod(
-                'getUserLocation');
-            print('$result');
+        try {
+          var result = await googleMapPlatform.invokeMethod('getUserLocation');
+          print('$result');
 
-//            setState(() {
-//              _locationSet = true;
-//              _locationValue = '${result['latitude']}, ${result['longitude']}';
-//            });
-          } on PlatformException catch (e) {
-            print('${e.toString()}');
-          }
+          double latitude = double.parse(result['latitude']);
+          double longitude = double.parse(result['longitude']);
+
+          setState(() {
+            _locationValue =
+                "${conversions.convertLocationToDms(latitude, longitude)}";
+          });
+        } on PlatformException catch (e) {
+          print('${e.toString()}');
         }
       },
       onTapDown: (details) {
@@ -477,11 +476,13 @@ class _CurrentLocationFieldState extends State<CurrentLocationField> {
         child: Text(_locationValue,
           style: TextStyle(
               color: _pressed?Colors.grey:Colors.white,
-              fontSize: ScreenUtil().setSp(50)
+              fontSize: ScreenUtil().setSp(40)
           ),
         ),
       ),
     );
   }
 }
+
+
 
