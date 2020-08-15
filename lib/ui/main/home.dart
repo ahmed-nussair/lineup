@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,10 +35,16 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    return Platform.isAndroid
+        ? SafeArea(
+            child: _body(),
+          )
+        : _body();
+  }
 
+  Widget _body() {
     // Drawer Items
     List<DrawerItem> drawerItems = [
-
       // My profile
       DrawerItem('assets/drawer_icons/profile.png', 'My Profile', () {
         Navigator.of(context).pop();
@@ -96,7 +104,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 child: Padding(
                   padding: EdgeInsets.only(top: ScreenUtil().setHeight(300)),
                   child: ListView(
-                    children: List.generate(drawerItems.length, (index){
+                    children: List.generate(drawerItems.length, (index) {
                       return DrawerItemWidget(
                         title: drawerItems[index].title,
                         iconPath: drawerItems[index].iconPath,
@@ -113,13 +121,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       body: Container(
         child: Column(
           children: <Widget>[
-
             // the header
             Container(
               height: ScreenUtil().setHeight(470),
               child: Stack(
                 children: <Widget>[
-
                   // the header background
                   Container(
                     height: ScreenUtil().setHeight(400),
@@ -127,7 +133,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       color: Color(0xffD84401),
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(ScreenUtil().setWidth(150)),
-
                       ),
                     ),
                   ),
@@ -143,14 +148,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       decoration: BoxDecoration(
                         color: Color(0xffFC550A),
                         borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(ScreenUtil().setWidth(150)),
+                          bottomLeft:
+                              Radius.circular(ScreenUtil().setWidth(150)),
                         ),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,18 +166,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                     color: Colors.white,
                                     fontSize: ScreenUtil().setSp(40),
                                   ),
-                                  children: <TextSpan> [
+                                  children: <TextSpan>[
                                     TextSpan(text: 'Welcome '),
-                                    TextSpan(text: 'Sam',
+                                    TextSpan(
+                                        text: 'Sam',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                        )
-                                    ),
+                                        )),
                                   ],
                                 ),
-
                               ),
-                              Text('Select your location',
+                              Text(
+                                'Select your location',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: ScreenUtil().setSp(40),
@@ -184,7 +189,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           Padding(
                             padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
                           ),
-                          Image.asset('assets/location.png',
+                          Image.asset(
+                            'assets/location.png',
                             height: ScreenUtil().setHeight(70),
                             fit: BoxFit.cover,
                           ),
@@ -200,9 +206,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     child: Padding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(50)),
                       child: GestureDetector(
-                        child: Image.asset('assets/more.png',
+                        child: Image.asset(
+                          'assets/more.png',
                           width: ScreenUtil().setWidth(70),
-                          color: _drawerIconPressed?Colors.grey:Colors.white,
+                          color:
+                              _drawerIconPressed ? Colors.grey : Colors.white,
                         ),
                         onTap: () {
                           _key.currentState.openDrawer();
@@ -233,12 +241,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
             Expanded(
               child: ListView(
-
                 children: <Widget>[
                   Ads(),
-
                   Restaurants(),
-
                   Padding(
                     padding: EdgeInsets.all(ScreenUtil().setHeight(50)),
                   ),
@@ -248,16 +253,16 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ],
         ),
       ),
-
       bottomNavigationBar: FancyBottomNavigation(
         tabs: [
           TabData(
             title: '',
-            iconData: _selectedPos == 0?Icons.favorite:Icons.favorite_border,
+            iconData:
+                _selectedPos == 0 ? Icons.favorite : Icons.favorite_border,
           ),
           TabData(
             title: '',
-            iconData: _selectedPos == 1?AppIcons.home:AppIcons.home_outline,
+            iconData: _selectedPos == 1 ? AppIcons.home : AppIcons.home_outline,
           ),
           TabData(
             title: '',
@@ -267,7 +272,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         activeIconColor: Colors.white,
         inactiveIconColor: Color(0xffFC550A),
         barBackgroundColor: Color(0xffF8F8F8),
-
         initialSelection: _selectedPos,
         circleColor: Color(0xffFC550A),
         onTabChangedListener: (int position) {
@@ -278,7 +282,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       ),
     );
   }
-
 }
 
 
@@ -289,6 +292,7 @@ class DrawerItemWidget extends StatefulWidget {
   final Function onPressed;
 
   DrawerItemWidget({@required this.iconPath, @required this.title, @required this.onPressed});
+
   @override
   _DrawerItemWidgetState createState() => _DrawerItemWidgetState();
 }
@@ -302,6 +306,7 @@ class _DrawerItemWidgetState extends State<DrawerItemWidget> {
     _itemPressed = false;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -374,6 +379,7 @@ class _FilterAndSearchWidgetState extends State<FilterAndSearchWidget> {
     _searchIconPressed = false;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
