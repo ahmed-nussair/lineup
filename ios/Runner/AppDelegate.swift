@@ -68,13 +68,15 @@ import GoogleMaps
                     
                     print(self.getData(data: latitudeData))
                     
-                    
                     let map = [
                         "latitude": self.getData(data: latitudeData),
                         "longitude": self.getData(data: longitudeData)
                     ]
-
+                    
                     flutterResult(map)
+                    
+
+                    
                     }
                 
                 let navigationController = UINavigationController(rootViewController: flutterViewController)
