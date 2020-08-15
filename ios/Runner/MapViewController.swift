@@ -13,6 +13,17 @@ class MapViewController: UIViewController , GMSMapViewDelegate, CLLocationManage
     
     let locationManager = CLLocationManager()
     
+    
+    var userLatitude : Double?
+    var userLongitude : Double?
+    
+    var latitude : Double?
+    var longitude : Double?
+    
+    var mapView = GMSMapView()
+    
+    var callback : ((Double?, Double?) -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,13 +33,21 @@ class MapViewController: UIViewController , GMSMapViewDelegate, CLLocationManage
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
+            
+            
+            userLatitude = locationManager.location?.coordinate.latitude
+            userLongitude = locationManager.location?.coordinate.longitude
+
         }
 //        setUpNavBar()
     }
     
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             print(location.coordinate)
+            userLatitude = location.coordinate.latitude
+            userLongitude = location.coordinate.longitude
         }
     }
 
@@ -50,8 +69,9 @@ class MapViewController: UIViewController , GMSMapViewDelegate, CLLocationManage
 //        self.navigationController?.isNavigationBarHidden = false
         
         
-        let camera = GMSCameraPosition.camera(withLatitude: 24.707042, longitude: 46.670826, zoom: 10.0)
-        let mapView = GMSMapView.map(withFrame: self.view.frame, camera: camera)
+        let camera = GMSCameraPosition.camera(withLatitude: self.userLatitude ?? 37.785834, longitude: self.userLongitude ?? -122.406417, zoom: 10.0)
+        mapView = GMSMapView.map(withFrame: self.view.frame, camera: camera)
+        
         
         mapView.delegate = self
         
@@ -59,9 +79,9 @@ class MapViewController: UIViewController , GMSMapViewDelegate, CLLocationManage
 
         // Creates a marker in the center of the map.
         let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(latitude: 24.707042, longitude: 46.670826)
-        marker.title = "Ar-Riyyad"
-        marker.snippet = "Saudi Arabia"
+        marker.position = CLLocationCoordinate2D(latitude: self.userLatitude ?? 37.785834, longitude: self.userLongitude ?? -122.406417)
+//        marker.title = "Ar-Riyyad"
+//        marker.snippet = "Saudi Arabia"
         marker.map = mapView
         
         let currentLocationButton = CurrentLocationButton()
@@ -70,6 +90,7 @@ class MapViewController: UIViewController , GMSMapViewDelegate, CLLocationManage
         
         currentLocationButton.frame = CGRect(x: 50, y: 50, width: 50, height: 50)
         
+        currentLocationButton.addTarget(self, action: #selector(goToLocation), for: .touchUpInside)
         
         self.view.addSubview(currentLocationButton)
         
@@ -86,6 +107,8 @@ class MapViewController: UIViewController , GMSMapViewDelegate, CLLocationManage
         backButton.frame = CGRect(x: 0, y: 0, width: 70, height: 70)
         
         backButton.backgroundColor = UIColor(red: 252 / 255, green: 85 / 255, blue: 10 / 255, alpha: 1.0)
+        
+        backButton.addTarget(self, action: #selector(confirmLocationAndBack), for: .touchUpInside)
         
         let maskLayer = CAShapeLayer()
         
@@ -156,10 +179,44 @@ class MapViewController: UIViewController , GMSMapViewDelegate, CLLocationManage
     }
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        
         mapView.clear()
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
         marker.map = mapView
+        
+        self.latitude = marker.position.latitude
+        self.longitude = marker.position.longitude
+    }
+    
+    @objc func goToLocation(sender:UIButton) {
+        
+        mapView.clear()
+        
+        let camera = GMSCameraPosition.camera(withLatitude: self.userLatitude ?? 37.785834, longitude: self.userLongitude ?? -122.406417, zoom: 10.0)
+        
+        mapView.animate(to: camera)
+
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(latitude: self.userLatitude ?? 37.785834, longitude: self.userLongitude ?? -122.406417)
+        marker.map = mapView
+        
+        self.latitude = marker.position.latitude
+        self.longitude = marker.position.longitude
+    }
+    
+    @objc func confirmLocationAndBack(sender:UIButton) {
+        
+        let latitude : Double? = self.latitude ?? self.userLatitude
+        let longitude : Double? = self.longitude ?? self.userLongitude
+
+        if let handler = self.callback {
+            handler(latitude, longitude)
+        }
+
+        
+        self.navigationController?.popToRootViewController(animated: true)
+        
     }
 
 }
