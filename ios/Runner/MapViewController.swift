@@ -35,8 +35,9 @@ class MapViewController: UIViewController , GMSMapViewDelegate, CLLocationManage
             locationManager.startUpdatingLocation()
             
             
-            userLatitude = locationManager.location?.coordinate.latitude
-            userLongitude = locationManager.location?.coordinate.longitude
+            userLatitude = locationManager.location?.coordinate.latitude ?? 24.700171
+            userLongitude = locationManager.location?.coordinate.longitude ?? 46.698095
+            
 
         }
 //        setUpNavBar()
@@ -45,7 +46,6 @@ class MapViewController: UIViewController , GMSMapViewDelegate, CLLocationManage
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
-            print(location.coordinate)
             userLatitude = location.coordinate.latitude
             userLongitude = location.coordinate.longitude
         }
@@ -69,7 +69,7 @@ class MapViewController: UIViewController , GMSMapViewDelegate, CLLocationManage
 //        self.navigationController?.isNavigationBarHidden = false
         
         
-        let camera = GMSCameraPosition.camera(withLatitude: self.userLatitude ?? 37.785834, longitude: self.userLongitude ?? -122.406417, zoom: 10.0)
+        let camera = GMSCameraPosition.camera(withLatitude: self.userLatitude ?? 24.700171, longitude: self.userLongitude ?? 46.698095, zoom: 10.0)
         mapView = GMSMapView.map(withFrame: self.view.frame, camera: camera)
         
         
@@ -79,7 +79,7 @@ class MapViewController: UIViewController , GMSMapViewDelegate, CLLocationManage
 
         // Creates a marker in the center of the map.
         let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(latitude: self.userLatitude ?? 37.785834, longitude: self.userLongitude ?? -122.406417)
+        marker.position = CLLocationCoordinate2D(latitude: self.userLatitude ?? 24.700171, longitude: self.userLongitude ?? 46.698095)
 //        marker.title = "Ar-Riyyad"
 //        marker.snippet = "Saudi Arabia"
         marker.map = mapView
@@ -210,6 +210,7 @@ class MapViewController: UIViewController , GMSMapViewDelegate, CLLocationManage
         let latitude : Double? = self.latitude ?? self.userLatitude
         let longitude : Double? = self.longitude ?? self.userLongitude
 
+        print("latitude: \(String(describing: latitude)), longitude: \(String(describing: longitude))")
         if let handler = self.callback {
             handler(latitude, longitude)
         }
